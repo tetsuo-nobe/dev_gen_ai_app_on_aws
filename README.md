@@ -1,1 +1,2 @@
-# de_gen_ai_app_on_aws
+# Developing Generative AI Application on AWS トレーニング
+## サンプル

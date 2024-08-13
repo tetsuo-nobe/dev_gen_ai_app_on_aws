@@ -21,7 +21,7 @@ aws bedrock-runtime converse \
 --region us-east-1
 ```
 
-### 例3: モデルの呼び出し（invoke-model を使用したテキスト生成: Meta LLama）
+### 例3: モデルの呼び出し（invoke-model を使用したテキスト生成: Meta LLama3）
 ```
 aws bedrock-runtime invoke-model \
 --model-id "meta.llama3-8b-instruct-v1:0"  \

@@ -27,7 +27,7 @@ if prompt := st.chat_input("質問を入力してください。"):
 
         # Agent 実行結果の取得と表示
         event_stream = response["completion"]
-        text = ""  # textを初期化
+        text = "" 
         for event in event_stream:
             if "chunk" in event:
                 text += event["chunk"]["bytes"].decode("utf-8")

@@ -32,7 +32,7 @@ modelId="anthropic.claude-3-haiku-20240307-v1:0"
 jobName = "my-batch-job-" + time.strftime("%Y%m%d%H%M%S")
 
 # Role ARN
-roleArn = "arn:aws:iam::068048081706:role/my-bedrock-batch-role"
+roleArn = "arn:aws:iam::000000000000:role/my-bedrock-batch-role"
 
 # Batch JOB 実行
 response=bedrock.create_model_invocation_job(

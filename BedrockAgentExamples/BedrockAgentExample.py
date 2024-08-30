@@ -4,8 +4,8 @@ import boto3
 import streamlit as st
 
 # Agentの定義
-agent_id: str = "3BHIQQCNYN"  # Agent IDを入力
-agent_alias_id: str = "6ERYZXUNDT"  # Alias IDを入力
+agent_id: str = "XXXXXXXXXX"  # Agent IDを入力
+agent_alias_id: str = "XXXXXXXXXX"  # Alias IDを入力
 session_id: str = str(uuid.uuid1())
 client = boto3.client("bedrock-agent-runtime")
 

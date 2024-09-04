@@ -3,11 +3,8 @@ import boto3
 
 
 # Agentの定義
-agent_id: str = "3BHIQQCNYN"  # Agent IDを入力
-agent_alias_id: str = "39DGJPPCAF"  # Alias IDを入力
-
-#agent_id: str = "PICA38JHA3"  # 0817B
-#agent_alias_id: str = "U5WNZGTHJH"  # 0817B v2
+agent_id: str = "XXXXXXXXXX"  # Agent IDを入力
+agent_alias_id: str = "XXXXXXXXXX"  # Alias IDを入力
 
 prompt1 = "AnyCompany社の最新情報を教えてください。"
 prompt2 = "AnyCompany社では、6か月以上勤務した場合に与えられる有給休暇は何日ですか？"

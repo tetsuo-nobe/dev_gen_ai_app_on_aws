@@ -7,11 +7,8 @@ USER = "user"
 ASSISTANT = "assistant"
 
 # Agentの定義
-agent_id: str = "3BHIQQCNYN"  # Agent IDを入力
-agent_alias_id: str = "39DGJPPCAF"  # Alias IDを入力
-
-#agent_id: str = "PICA38JHA3"  # 0817B
-#agent_alias_id: str = "U5WNZGTHJH"  # 0817B v2
+agent_id: str = "XXXXXXXXXX"  # Agent IDを入力
+agent_alias_id: str = "XXXXXXXXXX"  # Alias IDを入力
 
 session_id: str = str(uuid.uuid1())
 client = boto3.client("bedrock-agent-runtime")

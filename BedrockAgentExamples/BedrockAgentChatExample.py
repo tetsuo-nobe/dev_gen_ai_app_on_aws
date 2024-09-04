@@ -43,6 +43,8 @@ if prompt := st.chat_input("質問を入力してください。"):
         )
 
         # Agent 実行結果の取得と表示
+        #（ストリームを処理しているようなコードだが、実際はストリームのように細切れでレスポンスは返ってきていない。
+        # https://repost.aws/questions/QU_jIzfKIAQHSXyPeE4JMAJg/issue-streaming-response-from-bedrock-agent
         event_stream = response["completion"]
         assistant_msg = "" 
         for event in event_stream:

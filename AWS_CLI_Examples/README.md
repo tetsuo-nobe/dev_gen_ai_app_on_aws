@@ -23,8 +23,8 @@ aws bedrock-runtime invoke-model \
 ```
 aws bedrock-runtime invoke-model \
 --model-id "anthropic.claude-3-sonnet-20240229-v1:0"  \
---body '{ "max_tokens": 200, "temperature": 0.1, "top_p": 0.9, "messages": "user: あなたはアシスタントです。質問に回答してください。生成AIとは何ですか？ assistant: ","max_gen_len": 50,"temperature": 0.9}' \
- output-titan.txt
+--body '{ "max_tokens": 200, "temperature": 0.1, "top_p": 0.9, "messages": [ {"role": "user", "text": "あなたはアシスタントです。質問に回答してください。生成AIとは何ですか？"}]}]}' \
+ output-claude.txt
 ```
 
 ### 例4: モデルの呼び出し（converse を使用したテキスト生成: Meta LLama3）

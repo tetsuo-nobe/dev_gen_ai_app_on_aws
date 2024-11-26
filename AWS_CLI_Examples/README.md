@@ -8,7 +8,7 @@ aws bedrock list-foundation-models \
 modelId,
 inputModalities[0],
 outputModalities[0]]" \
---output text | tr '\t' ',' | sort
+--output text | sort
 ```
 
 ### 例2: モデルの呼び出し（invoke-model を使用したテキスト生成: Meta LLama3）

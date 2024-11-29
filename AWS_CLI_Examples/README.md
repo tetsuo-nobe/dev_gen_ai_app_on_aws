@@ -37,7 +37,7 @@ aws bedrock-runtime converse \
 --region us-east-1
 ```
 
-### 例5: モデルの呼び出し（converse を使用したテキスト生成: Amazon Titan Text）
+### 例5: モデルの呼び出し（converse を使用したテキスト生成: Anthropic Claude）
 ```
 aws bedrock-runtime converse \
 --model-id "anthropic.claude-3-sonnet-20240229-v1:0" \

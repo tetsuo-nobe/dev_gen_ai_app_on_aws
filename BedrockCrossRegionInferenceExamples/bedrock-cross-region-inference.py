@@ -6,7 +6,7 @@ https://aws.amazon.com/jp/blogs/machine-learning/getting-started-with-cross-regi
 import boto3
 import json
 
-primary_region ="us-east-1" #us-east-1, eu-central-1
+primary_region ="us-east-1" 
 bedrock_runtime = boto3.client("bedrock-runtime", region_name= primary_region)
 inferenceProfileId = 'us.anthropic.claude-3-5-sonnet-20240620-v1:0' 
 

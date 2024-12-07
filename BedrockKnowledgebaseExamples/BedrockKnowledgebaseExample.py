@@ -1,6 +1,6 @@
 import boto3
 
-# Bedrock Agent Client
+# Bedrock Agent runtime Client
 kb_agent = boto3.client(service_name='bedrock-agent-runtime')
 
 # 

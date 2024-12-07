@@ -8,7 +8,7 @@ kb_agent = boto3.client(service_name='bedrock-agent-runtime', region_name=region
 # 
 model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
 model_arn = f'arn:aws:bedrock:{region}::foundation-model/{model_id}'
-kb_id = "XBTYJ2XR6O" # Knowkedge Base のID
+kb_id = "XXXXXXXXXX" # Knowkedge Base のID
 prompt = "AnyCompany社では、社員が結婚するときの休暇は何日ですか？"
 #prompt = "AnyCompany社では、6か月以上勤務した場合に与えられる有給休暇は何日ですか？"
 

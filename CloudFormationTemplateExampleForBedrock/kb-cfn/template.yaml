@@ -1,0 +1,231 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Amazon Bedrock Knowledge Base'
+# パラメータ
+Parameters:
+  # ナレッジベース名 (ユニークにする)
+  KnowledgeBaseName:
+    Default: tnobe-kb
+    Description: Amazon Bedrock Knowledge Base name
+    Type: String
+  # ナレッジベースの説明
+  KnowledgeBaseDescription:
+    Default: "Knowledge Base from CloudFormation"
+    Description: Amazon Bedrock Knowledge Base description
+    Type: String
+  # ナレッジベースのデータソースとなる S3 バケットの名前 (ユニークにする)
+  S3BucketNameForDataSource: 
+    Default: 'tnobe-kb-0000'
+    Description: S3 Bucket Name for Datasource of Knowledge Base
+    Type: String
+  # ナレッジベースのデータソースの説明
+  DataSourceDescription:
+    Default: "DataSource from CloudFormation"
+    Description: Datasource description
+    Type: String   
+  # ナレッジベースで使用する Embed モデルの Id
+  EmbedModelId: 
+    Default: 'amazon.titan-embed-text-v2:0'
+    AllowedValues:
+      - 'amazon.titan-embed-text-v2:0'
+      - 'amazon.titan-embed-text-v1'
+      - 'cohere.embed-english-v3'
+      - 'cohere.embed-multilingual-v3'
+    Description: Amazon Bedrock Embed Model Id for Knowledge Base
+    Type: String
+
+# コンディション: Titan Embed V1 のみ 1536次元なので、それを識別するための条件式
+Conditions:
+  IsTitanEmbedTextV1: !Equals [!Ref EmbedModelId, "amazon.titan-embed-text-v1"]
+
+# マッピング
+Mappings:
+  IndexMap:
+    textField:
+      Name: "text"
+    metadataField:
+      Name: "metadata"
+# リソース
+Resources:
+  # データソースとなる S3 バケット
+  BucketForDataSource:
+    Type: "AWS::S3::Bucket"
+    DeletionPolicy: Delete
+    Properties:
+      BucketName: !Ref S3BucketNameForDataSource
+  # OpenSearch Serverless データアクセスポリシー
+  DataAccessPolicy:
+    Type: 'AWS::OpenSearchServerless::AccessPolicy'
+    Properties:
+      Name: !Sub ${KnowledgeBaseName}-access-policy
+      Type: data
+      Description: Access policy for the collection
+      Policy: !Sub >-
+        [{"Description":"Access for role","Rules":[{"ResourceType":"index","Resource":["index/*/*"],"Permission":["aoss:UpdateIndex","aoss:DescribeIndex","aoss:ReadDocument","aoss:WriteDocument","aoss:CreateIndex"]},
+        {"ResourceType":"collection","Resource":["collection/${KnowledgeBaseName}-collection"],"Permission":["aoss:DescribeCollectionItems","aoss:CreateCollectionItems","aoss:UpdateCollectionItems"]}],
+        "Principal":["arn:aws:iam::${AWS::AccountId}:role/${KnowledgeBaseName}-role","arn:aws:iam::${AWS::AccountId}:role/${AWS::StackName}-create-index-function-role"]}]
+  # OpenSearch Serverless ネットワークポリシー
+  NetworkPolicy:
+    Type: 'AWS::OpenSearchServerless::SecurityPolicy'
+    Properties:
+      Name: !Sub ${KnowledgeBaseName}-network-policy
+      Type: network
+      Description: Network policy for the collection
+      Policy: !Sub >-
+        [{"Rules":[{"ResourceType":"collection","Resource":["collection/${KnowledgeBaseName}-collection"]}, {"ResourceType":"dashboard","Resource":["collection/${KnowledgeBaseName}-collection"]}],"AllowFromPublic":true}]
+  # OpenSearch Serverless 暗号化ポリシー  
+  EncryptionPolicy:
+    Type: 'AWS::OpenSearchServerless::SecurityPolicy'
+    Properties:
+      Name: !Sub ${KnowledgeBaseName}-security-policy
+      Type: encryption
+      Description: Encryption policy for the collection
+      Policy: !Sub >-
+        {"Rules":[{"ResourceType":"collection","Resource":["collection/${KnowledgeBaseName}-collection"]}],"AWSOwnedKey":true}
+  # OpenSearch Serverless コレクション
+  Collection:
+    Type: 'AWS::OpenSearchServerless::Collection'
+    Properties:
+      Name: !Sub ${KnowledgeBaseName}-collection
+      Type: VECTORSEARCH
+      Description: Collection to vector search
+    DependsOn: EncryptionPolicy
+  # OpenSearch Index 作成用のカスタムリソース
+  CreateAOSSIndex:
+    Type: 'Custom::OpenSearchServerlessIndex'
+    Properties:
+      ServiceToken: !GetAtt CreateIndexFunction.Arn
+      Region: !Ref 'AWS::Region'
+      Dimension: !If [IsTitanEmbedTextV1, 1536, 1024] # Titan Embed V1 のみ 1536。V2 や Cohere は 1024
+      EmbeddingModelId: !Ref EmbedModelId
+      CollectionId: !GetAtt Collection.Id
+      IndexName:    !Sub "${KnowledgeBaseName}-index"
+      VectorField:  !Sub "${KnowledgeBaseName}-vector-field"
+      MappingText:  !FindInMap [IndexMap, textField, Name]
+      MappingMetadata: !FindInMap [IndexMap, metadataField, Name]
+    DependsOn:
+      - DataAccessPolicy
+  # カスタムリソースの Lambda 関数の Role 用の IAM ポリシー
+  CreateIndexFunctionPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: !Sub ${AWS::StackName}-bedrock-oss-policy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: OpenSearchServerlessAPIAccessAllStatement
+            Effect: Allow
+            Action:
+              - 'aoss:APIAccessAll'
+            Resource: !GetAtt Collection.Arn
+  # カスタムリソースの Lambda 関数の Role
+  CreateIndexFunctionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-create-index-function-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Ref CreateIndexFunctionPolicy
+  # カスタムリソースの Lambda 関数
+  CreateIndexFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-create-index-function'
+      Handler: app.lambda_handler
+      Role: !GetAtt CreateIndexFunctionRole.Arn
+      Runtime: python3.12
+      Timeout: 600
+      LoggingConfig:
+        LogFormat: JSON
+        ApplicationLogLevel: INFO
+        SystemLogLevel: INFO
+      CodeUri: function/
+  #
+  # ナレッジベースのロールに設定するポリシー
+  PolicyforKnowledgebaseRole:
+    Type: AWS::IAM::ManagedPolicy
+    Properties: 
+      ManagedPolicyName: !Sub ${KnowledgeBaseName}-policy
+      PolicyDocument: 
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: [
+                'bedrock:InvokeModel'
+            ]
+            Resource: !Sub "arn:aws:bedrock:${AWS::Region}::foundation-model/${EmbedModelId}"
+          - Effect: Allow
+            Action:
+              - 'aoss:APIAccessAll'
+            Resource: !GetAtt Collection.Arn
+          - Effect: Allow
+            Action:
+              - 's3:ListBucket'
+            Resource: !GetAtt  BucketForDataSource.Arn
+          - Effect: Allow
+            Action:
+              - 's3:GetObject'
+            Resource: !Sub "${BucketForDataSource.Arn}/*"
+  # ナレッジベースのロール
+  RoleForKnowledgebase:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName : !Sub ${KnowledgeBaseName}-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - 'bedrock.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Sub "${AWS::AccountId}"
+              ArnLike:
+                aws:SourceArn: !Sub "arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:knowledge-base/*"
+      Path: /
+      ManagedPolicyArns:
+        - !Ref PolicyforKnowledgebaseRole
+  # ナレッジベース
+  KnowledgeBase:
+    Type: AWS::Bedrock::KnowledgeBase
+    Properties:
+      Name: !Ref KnowledgeBaseName
+      Description: !Ref KnowledgeBaseDescription
+      RoleArn: !GetAtt RoleForKnowledgebase.Arn
+      KnowledgeBaseConfiguration:
+        Type: "VECTOR"
+        VectorKnowledgeBaseConfiguration:
+          EmbeddingModelArn: !Sub "arn:${AWS::Partition}:bedrock:${AWS::Region}::foundation-model/${EmbedModelId}"
+      StorageConfiguration:
+        Type: "OPENSEARCH_SERVERLESS"
+        OpensearchServerlessConfiguration:
+          CollectionArn: !GetAtt Collection.Arn
+          VectorIndexName: !Sub "${KnowledgeBaseName}-index"
+          FieldMapping:
+            VectorField: !Sub "${KnowledgeBaseName}-vector-field"
+            TextField: !FindInMap [IndexMap, textField, Name]
+            MetadataField: !FindInMap [IndexMap, metadataField, Name]
+    DependsOn: CreateAOSSIndex
+  DataSourceForKnowledgeBase:
+    Type: AWS::Bedrock::DataSource
+    Properties:
+      KnowledgeBaseId: !Ref KnowledgeBase
+      Name: !Sub "${KnowledgeBaseName}-ds"
+      Description: !Ref DataSourceDescription
+      DataSourceConfiguration:
+        Type: "S3"
+        S3Configuration:
+          BucketArn: !GetAtt  BucketForDataSource.Arn
+Outputs:
+  BedrockKnowledgeBaseId:
+    Value: !Ref KnowledgeBase

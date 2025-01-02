@@ -1,0 +1,157 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+# パラメータ
+Parameters:
+  # Agent 名 (ユニークにする)
+  AgentName:
+    Default: tnobe-agent
+    Description: Amazon Bedrock Agent name
+    Type: String
+  # Agent の説明
+  AgentDescription:
+    Default: "Bedrock Agent from CloudFormation"
+    Description: Amazon Bedrock Agent description
+    Type: String
+  # Agent への指示
+  AgentInstruction:
+    Description: Amazon Bedrock Agent instruction
+    Type: String
+    Default: |
+      あなたは優秀なAIアシスタントです。
+      ユーザーからの質問や指示に対して、以下の手順で適切な回答を提供してください。 
+      1.ユーザーの依頼内容を注意深く読み、その内容が以下のどのカテゴリーに該当するか判断してください。 
+        a) AnyCompany社の最新情報に関する質問 
+        b) 一般的な知識に関する質問 
+        c) ナレッジベース内の情報への問い合わせ 
+      2.依頼内容が一般的な知識に関する質問であると判断した場合、あなたが持つ幅広い知識に基づいて、的確で分かりやすい回答を作成してください。 
+      3.依頼内容がナレッジベース内の情報への問い合わせであると判断した場合、ナレッジベースに格納されているデータを検索し、関連する情報を抽出して、ユーザーの質問に対する最適な回答を作成してください。 
+      4.依頼内容がAnyCompany社の最新情報に関する質問であると判断した場合、専用のfunctionを実行して最新情報を取得し、ユーザーに提供してください。また回答の最後にURLを「■参照元: <url>」と出力してください。 
+      5.回答する際は、ユーザーの知識レベルや関心に合わせて、技術的な詳細の量を調整するなど、わかりやすく親しみやすい言葉づかいを心がけてください。 
+      以上の手順に従って、ユーザーの期待に応える高品質なアシスタントサービスを提供してください。
+  # Agent で使用する基盤モデルの Id
+  ModelId: 
+    Default: 'anthropic.claude-3-haiku-20240307-v1:0'
+    AllowedValues:
+      - 'anthropic.claude-3-haiku-20240307-v1:0'
+      - 'anthropic.claude-3-5-sonnet-20240620-v1:0'
+      - 'amazon.nova-lite-v1:0'
+      - 'amazon.nova-pro-v1:0'
+    Description: Amazon Bedrock Model Id for Agent
+    Type: String
+  # ナレッジベースの ID
+  KnowledgeBaseId:
+    Default: "ZA7IT0HHLV"
+    Description: Knowledge Base Id 
+    Type: String
+  # ナレッジベースの説明
+  KnowledgeBaseDescription:
+    Default: "Bedrock Agent from CloudFormation"
+    Description: Knowledge Base description
+    Type: String
+# グローバル
+Globals:
+  Function:
+    Timeout: 10
+# リソース
+Resources:
+  # Agent のアクショングループ用の Lambda 関数
+  ActionGroupFunction:
+    Type: AWS::Serverless::Function 
+    Properties:
+      FunctionName: !Sub "${AgentName}-ActionGroupFunction"
+      CodeUri: function/
+      Handler: app.lambda_handler
+      Runtime: python3.12
+      Architectures:
+        - x86_64
+  # Agent のアクショングループ用の Lambda 関数のリソースベースポリシー
+  ActionGroupFunctionPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !Ref ActionGroupFunction
+      Principal: "bedrock.amazonaws.com"
+      SourceArn: !GetAtt Agent.AgentArn
+  # Agent のロールに設定するポリシー
+  PolicyforAgent:
+    Type: AWS::IAM::ManagedPolicy
+    Properties: 
+      ManagedPolicyName: !Sub "${AgentName}-policy"
+      PolicyDocument: 
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: [
+                'bedrock:InvokeModel'
+            ]
+            Resource: !Sub "arn:aws:bedrock:${AWS::Region}::foundation-model/${ModelId}"
+          - Effect: Allow
+            Action:
+              - 'bedrock:Retrieve'
+            Resource: !Sub "arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:knowledge-base/${KnowledgeBaseId}"
+  # Agent のロール
+  RoleForAgent:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName : !Sub "${AgentName}-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - 'bedrock.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Sub "${AWS::AccountId}"
+              ArnLike:
+                aws:SourceArn: !Sub "arn:aws:bedrock:${AWS::Region}:${AWS::AccountId}:agent/*"
+      Path: /
+      ManagedPolicyArns:
+        - !Ref PolicyforAgent
+  # Amazon Bedrock Agent        
+  Agent:
+    Type: AWS::Bedrock::Agent
+    Properties:
+      AgentName: !Ref AgentName
+      AgentResourceRoleArn: !GetAtt RoleForAgent.Arn
+      FoundationModel: !Ref ModelId
+      Instruction: !Ref AgentInstruction
+      Description: !Ref AgentDescription
+      IdleSessionTTLInSeconds: 900
+      ActionGroups:
+        - ActionGroupName: "AnyCompanyNews"
+          Description: "Get AnyCompany News"
+          ActionGroupExecutor:
+            Lambda: !GetAtt ActionGroupFunction.Arn
+          FunctionSchema:
+            Functions: 
+              - Name: "AnyCompanyNewsFunction"
+                Description: "Function to get AnyCompany News"
+                Parameters: 
+                  search_blog:
+                    Description: "Searchig AnyCompany news from Web"
+                    Required: true
+                    Type: "string"
+          # ApiSchema:
+          #   S3:
+          #     S3BucketName: "apischema-s3"
+          #     S3ObjectKey: "ApiSchema.json"
+      KnowledgeBases:
+        - KnowledgeBaseId: !Ref KnowledgeBaseId
+          Description: !Ref KnowledgeBaseDescription
+          KnowledgeBaseState: ENABLED
+  # Agent のエイリアス
+  AgentAlias:
+    Type: AWS::Bedrock::AgentAlias
+    Properties:
+      AgentAliasName: "latest"
+      AgentId: !Ref Agent
+# アウトプット
+Outputs:
+  AgentId:
+    Value: !Ref Agent
+  AgentAliasId:
+    Value: !Ref AgentAlias

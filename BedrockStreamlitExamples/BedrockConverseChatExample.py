@@ -36,8 +36,9 @@ accept = "application/json"
 contentType = "application/json"
 
 
-session_id: str = str(uuid.uuid1())
-client = boto3.client("bedrock-runtime")
+# セッションステートに client が無ければ初期化
+if "client" not in st.session_state:
+    st.session_state.client = boto3.client("bedrock-runtime")
 
 # チャット履歴保存用のセッションを初期化
 if "chat_log" not in st.session_state:
@@ -62,7 +63,7 @@ if prompt := st.chat_input("質問を入力してください。"):
             message_placeholder = st.empty()
             chat_log = createMessage(prompt,st.session_state.chat_log)
             # Bedrock への問い合わせ実行
-            response = client.converse_stream(
+            response = st.session_state.client.converse_stream(
               modelId=model_id,
               messages=chat_log,    # これまでの会話履歴も含めて渡す
               system=system_prompts,

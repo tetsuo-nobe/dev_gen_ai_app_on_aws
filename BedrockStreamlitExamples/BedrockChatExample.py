@@ -35,8 +35,10 @@ def createRequestbody(prompt,chat_log):
     requestBody = json.dumps(native_request)
     return requestBody
 
-session_id: str = str(uuid.uuid1())
-client = boto3.client("bedrock-runtime")
+
+# セッションステートに client が無ければ初期化
+if "client" not in st.session_state:
+    st.session_state.client = boto3.client("bedrock-runtime")
 
 # チャット履歴保存用のセッションを初期化
 if "chat_log" not in st.session_state:
@@ -61,7 +63,7 @@ if prompt := st.chat_input("質問を入力してください。"):
             message_placeholder = st.empty()
             body = createRequestbody(prompt,st.session_state.chat_log)
             # Bedrock への問い合わせ実行
-            response = client.invoke_model_with_response_stream(
+            response = st.session_state.client.invoke_model_with_response_stream(
                 body=body, modelId=model_id, accept=accept, contentType=contentType
             )
             # 実行結果の表示

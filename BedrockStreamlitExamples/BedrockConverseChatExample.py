@@ -1,4 +1,4 @@
-# streamlit run --your_script.py --server.port 8080
+# streamlit run your_script.py --server.port 8080
 import uuid
 import json
 import boto3

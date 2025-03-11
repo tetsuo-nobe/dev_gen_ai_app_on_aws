@@ -13,8 +13,8 @@ ASSISTANT = "assistant"
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 # Agentの定義
-agent_id: str = "PICA38JHA3"  # Agent IDを入力
-agent_alias_id: str = "ER80XGROVE"  # Alias IDを入力:v4 Memory Option Enabled
+agent_id: str = "XXXXXXXXXX"  # Agent IDを入力
+agent_alias_id: str = "XXXXXXXXXX"  # Alias IDを入力:v4 Memory Option Enabled
 memoryId: str = "memory-example"
 
 # セッションステートに client が無ければ初期化

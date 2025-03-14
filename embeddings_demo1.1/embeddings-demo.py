@@ -61,7 +61,7 @@ print("----")
 #結果のいずれも0.5のしきい値を超えない場合、「わかりません」が応答になります。
 
 query = "Architecting on AWS は何日間コースですか？"
-#query = "Amazon SageMaker Studio for Data Scientistsは何日間コースですか？"
+#query = "AnyCompany社の公休日について教えてください。"
 #query = "車のタイヤを交換するにはどうしたらいいですか？"
     
 embed_query = sen2vec(query)

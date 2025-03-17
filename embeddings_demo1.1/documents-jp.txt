@@ -1,5 +1,5 @@
 AWSのトレーニングでArchitecting on AWSは3日間のコースです。
 AWSのトレーニングでAWS Technical Essentialsは1日間のコースです。
 AWSはAmazon Bedrockの一般提供を2023年9月に開始しました。
-AnyCompany社の休暇規定：従業員は年末年始(12月31日から1月3日まで）に休暇が与えられます。
+AnyCompany社の休暇規定：従業員は年末年始(12月31日から1月3日まで）休暇が与えられます。
 AnyCompany社のニュースリリース：AnyCompany社は2025年12月にロンドンウォーキングシューズに新素材を適用した新しいモデルを発売する予定です。

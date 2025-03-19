@@ -1,2 +1,2 @@
-# Developing Generative AI Application on AWS トレーニング
+# Developing Generative AI Applications on AWS トレーニング
 ## サンプル

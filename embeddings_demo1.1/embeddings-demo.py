@@ -14,8 +14,8 @@ sys.path.append(os.path.abspath(module_path))
 bedrock_client = boto3.client('bedrock-runtime',region_name=os.environ.get("AWS_DEFAULT_REGION", None))
 
 # 埋め込みを行う基盤モデルを使用
-modelId="amazon.titan-embed-text-v1"
-
+#modelId="amazon.titan-embed-text-v1"
+modelId="amazon.titan-embed-text-v2:0"
 
 # 文の埋め込みベクトルを生成する関数
 def sen2vec(sentence):
@@ -39,7 +39,7 @@ with open("documents-jp.txt") as doc:
     num_records = len(doc.readlines())
     
 doc_array=np.empty(shape=(num_records), dtype="S255")
-embed_array = np.zeros(shape=(num_records, 1536))
+embed_array = np.zeros(shape=(num_records, 1024))
 
 # ドキュメントのファイルを読み込み、ベクトル化データを配列へ格納
 with open("documents-jp.txt") as doc:

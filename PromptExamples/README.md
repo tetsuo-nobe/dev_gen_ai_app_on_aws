@@ -3,7 +3,7 @@
 
 ## Generative AI Use Cases on AWS (GenU) を使ってみましょう
 
-* 参考: [Generative AI Use Cases on AWS (GenU) のリポジトリ](Generative AI Use Cases on AWS (GenU) )
+* 参考: [Generative AI Use Cases on AWS (GenU) のリポジトリ](https://github.com/aws-samples/generative-ai-use-cases-jp)
 
 ### 基盤モデルとして Amazon Nova Lite を選択してご使用ください。
 

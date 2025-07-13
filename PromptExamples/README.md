@@ -3,6 +3,7 @@
 
 ## Generative AI Use Cases on AWS (GenU) を使ってみましょう
 
+* 環境やアクセス方法はインストラクターよりガイドします。
 * 参考: [Generative AI Use Cases on AWS (GenU) のリポジトリ](https://github.com/aws-samples/generative-ai-use-cases-jp)
 
 ### 基盤モデルとして Amazon Nova Lite を選択してご使用ください。
@@ -24,6 +25,8 @@
 ---
 
 ## プロンプトエンジニアリング
+
+* プロンプトを試す環境やアクセス方法はインストラクターよりガイドします。
 
 * Zero-shot の例
 

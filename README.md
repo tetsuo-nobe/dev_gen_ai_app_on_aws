@@ -3,7 +3,7 @@
 ### v1.2.4 対応: 
 
 * 下記のサンプルで **Amazon Nova Lite** 使用
-    - AWSCLIExamples
+    - AWS_CLI_Examples
     - BedrockBasicExamples
     - LangChainExamples
     - BedrockToolUseExamples

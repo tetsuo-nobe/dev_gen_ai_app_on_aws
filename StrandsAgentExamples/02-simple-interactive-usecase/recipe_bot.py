@@ -31,7 +31,7 @@ def websearch(keywords: str, region: str = "us-en", max_results: int | None = No
 
 # Create a recipe assistant agent
 recipe_agent = Agent(
-    model = "anthropic.claude-3-sonnet-20240229-v1:0",
+    model = "amazon.nova-lite-v1:0",
     system_prompt="""あなたはRecipeBot、料理アシスタントです。
     ユーザーが食材に基づいてレシピを探すのを手伝ったり、料理に関する質問に答えたりしましょう。
     ユーザーが食材について言及したときにレシピを検索したり、料理情報を調べたりするには、ウェブ検索ツールをご利用ください。""",

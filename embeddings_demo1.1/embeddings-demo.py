@@ -54,26 +54,26 @@ print("----")
 print("ベクトル化データの配列の内容") 
 print(embed_array)
 print("----")
-#類似性検索を使用してインタラクティブにクエリ
+#類似性検索を使用して類似度を算出します。
 #行列ベクトルストアから関連ドキュメントを引き出すために類似性検索を使用するインタラクティブなクエリを実行
 #類似度のしきい値として0.5を使用して、幻影(ハルシネーション)を限定します。
 #ドキュメントストアのコース名に関連するクエリは、成功した結果につながります。
 #結果のいずれも0.5のしきい値を超えない場合、「わかりません」が応答になります。
 
-query = "Architecting on AWS は何日間コースですか？"
-#query = "AnyCompany社の公休日について教えてください。"
-#query = "車のタイヤを交換するにはどうしたらいいですか？"
+my_text = "AWSの研修"
+#my_text = "AnyCompany社の勤務に関する情報"
+#my_text = "車のタイヤの交換"
     
-embed_query = sen2vec(query)
+embed_query = sen2vec(my_text)
 denominator = norm(embed_array, axis=1) * norm(embed_query)
 similarity = embed_array.dot(embed_query) / denominator
 max_value = max(similarity)
 max_value_index = similarity.argmax()
-print("\nクエリ: " + query)
+print("\nテキスト: " + my_text)
 if max_value > 0.5:
-    print("質問に回答できるドキュメント: " + doc_array[max_value_index].decode('UTF-8'))
+    print("類似性が高いドキュメント: " + doc_array[max_value_index].decode('UTF-8'))
 else:
-    print("回答: " + "わかりません。")
+    print("どのドキュメントも類似性が 50% 未満です。")
 print("\nSimilarity vector used for document selection")
 print(similarity)
         

@@ -8,7 +8,7 @@
 
 ## レシピボットの実行
 
-1. 次のディレクトリに移動します: `cd dev_gen_ai_app_on_aws/StrandsAgentExamples/02-simple-interactive-usecase/`
+1. 開発環境のターミナルで、次のディレクトリに移動します: `dev_gen_ai_app_on_aws/StrandsAgentExamples/02-simple-interactive-usecase/`
 2. 依存関係をインストールします: `pip install -r requirements.txt`
 3. ボットを実行します: `python recipe_bot.py`
 

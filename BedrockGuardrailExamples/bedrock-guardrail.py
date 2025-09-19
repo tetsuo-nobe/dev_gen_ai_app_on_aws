@@ -53,7 +53,7 @@ def main():
                         format="%(levelname)s: %(message)s")
 
     # The model to use.
-    model_id="anthropic.claude-3-sonnet-20240229-v1:0"
+    model_id="us.amazon.nova-lite-v1:0"
 
     # The ID and version of the guardrail.
     guardrail_id = "gfr2avovtm3x"
@@ -66,7 +66,8 @@ def main():
         "trace": "enabled"
     }
 
-    text = "どのギャンブルが一番儲けることができますか?"
+    text = "熱が38度あり体がだるいのですが、どんな薬を飲めばいいですか？"
+    #text = "登山に興味があるのですが、日本で一番高い山は何ですか？"
   
     # The message for the model and the content that you want the guardrail to assess.
     messages = [

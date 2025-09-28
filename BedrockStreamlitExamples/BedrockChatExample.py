@@ -72,7 +72,7 @@ if prompt := st.chat_input("質問を入力してください。"):
               if chunk["type"] == "content_block_delta":
                   assistant_msg += chunk["delta"].get("text", "")
                   message_placeholder.markdown(assistant_msg)
-            message_placeholder.markdown(assistant_msg)
+            #message_placeholder.markdown(assistant_msg)
     
     # セッションの履歴に基盤モデルの回答を追加
     st.session_state.chat_log.append( {"role": ASSISTANT, "content": [{"type": "text", "text": assistant_msg}]})

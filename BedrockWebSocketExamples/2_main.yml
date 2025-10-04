@@ -1,0 +1,314 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Bedrock ResponseStream API POC
+
+Parameters:
+  IAMStack:
+    Type: String
+    Default: websocket-bedrock-iam
+  ModelID:
+    Type: String
+    Default: apac.anthropic.claude-3-5-sonnet-20240620-v1:0 #Cross-region Inference
+  APIGatewayStage:
+    Type: String
+    Default: dev
+
+Resources:
+  ApiGatewayWS:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: ApiGatewayWS
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: $request.body.action
+
+  ConnectHandler:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: |
+          import boto3
+          import json
+          import os
+
+          API_ENDPOINT = os.environ["API_ENDPOINT"]
+          STAGE = os.environ["STAGE"]
+
+
+          def lambda_handler(event,context):
+              apigw_management = boto3.client('apigatewaymanagementapi', endpoint_url=f"{API_ENDPOINT}/{STAGE}")
+              try:
+                  connectionId = event.get('requestContext', {}).get('connectionId')
+              except Exception:
+                  return {
+                      "statusCode": 503
+                  }
+              
+              return {
+                  "statusCode": 200
+              } 
+      Role:
+        Fn::ImportValue: !Sub ${IAMStack}-HandlerDefaultRole
+      Environment:
+        Variables:
+          API_ENDPOINT: !Sub https://${ApiGatewayWS}.execute-api.${AWS::Region}.amazonaws.com
+          STAGE: !Ref APIGatewayStage
+      Handler: index.lambda_handler
+      Runtime: python3.12
+      Timeout: 10
+
+  DisconnectHandler:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: |
+          import boto3
+          import json
+
+          def lambda_handler(event,context):             
+              return {
+                  "statusCode": 200
+              }
+      Role:
+        Fn::ImportValue: !Sub ${IAMStack}-HandlerDefaultRole
+      Handler: index.lambda_handler
+      Runtime: python3.12
+      Timeout: 10
+
+  SendTextHandler:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+         ZipFile: |
+          import boto3
+          import json
+          import os
+
+          API_ENDPOINT = os.environ["API_ENDPOINT"]
+          STAGE = os.environ["STAGE"]
+          MODEL_ID = os.environ["MODEL_ID"]
+
+          def lambda_handler(event,context):
+              brt = boto3.client(service_name='bedrock-runtime')
+              apigw_management = boto3.client('apigatewaymanagementapi', endpoint_url=f"{API_ENDPOINT}/{STAGE}")
+
+              connectionId = event.get('requestContext', {}).get('connectionId')
+
+              body_content = json.loads(event.get('body', {}))
+              text = body_content.get('text')
+              body = json.dumps({
+                  "anthropic_version": "bedrock-2023-05-31", 
+                  "messages": [
+                      {
+                          "role": "user",
+                          "content": [
+                              {
+                                  "type": "text",
+                                  "text": f"{text}"
+                              }
+                          ]
+                      }
+                  ],
+                  "max_tokens": 1024
+              })
+              
+              modelId = MODEL_ID
+              accept = 'application/json'
+              contentType = 'application/json'
+
+              try:
+                  response = brt.invoke_model_with_response_stream(body=body, modelId=modelId, accept=accept, contentType=contentType)
+              except Exception as e:
+                  return {
+                      "statusCode": 500,
+                      "body": f"{e}"
+                  }
+
+              for event in response.get("body"):
+                  chunk = json.loads(event["chunk"]["bytes"])
+                  if chunk['type'] == 'content_block_delta' and chunk['delta']['type'] == 'text_delta':
+                      print(chunk['delta']['text'])
+                      try:
+                          apigw_management.post_to_connection(ConnectionId=connectionId, Data=json.dumps(chunk['delta']['text']))
+                      except Exception as e:
+                          return {
+                              "statusCode": 500,
+                              "body": f"{e}"
+                          }
+
+              return {
+                  "statusCode": 200
+              }
+      Role:
+        Fn::ImportValue: !Sub ${IAMStack}-SendTextHandlerRole
+      Environment:
+        Variables:
+          API_ENDPOINT: !Sub https://${ApiGatewayWS}.execute-api.${AWS::Region}.amazonaws.com
+          STAGE: !Ref APIGatewayStage
+          MODEL_ID: !Ref ModelID
+      Handler: index.lambda_handler
+      Runtime: python3.12
+      Timeout: 180
+
+  DefaultHandler:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code: 
+        ZipFile: |
+          import boto3
+          import json
+          import os
+
+          API_ENDPOINT = os.environ["API_ENDPOINT"]
+          STAGE = os.environ["STAGE"]
+
+
+          def lambda_handler(event,context):
+              apigw_management = boto3.client('apigatewaymanagementapi', endpoint_url=f"{API_ENDPOINT}/{STAGE}")
+              try:
+                  connectionId = event.get('requestContext', {}).get('connectionId')
+              except Exception:
+                  return {
+                      "statusCode": 503
+                  }
+              text = "To invoke Bedrock API, set request.body.action = 'sendtext'"
+              apigw_management.post_to_connection(ConnectionId=connectionId, Data=text)
+
+              return {
+                  "statusCode": 200
+              }
+      Role:
+        Fn::ImportValue: !Sub ${IAMStack}-HandlerDefaultRole
+      Environment:
+        Variables:
+          API_ENDPOINT: !Sub https://${ApiGatewayWS}.execute-api.${AWS::Region}.amazonaws.com
+          STAGE: !Ref APIGatewayStage
+      Handler: index.lambda_handler
+      Runtime: python3.12
+      Timeout: 10
+    
+  ConnectHandlerLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt ConnectHandler.Arn
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+
+  DisconnectHandlerLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt DisconnectHandler.Arn
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+    
+  SendTextHandlerLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt SendTextHandler.Arn
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+
+  DefaultHandlerLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt DefaultHandler.Arn
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+  
+  ApiGatewayConnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGatewayWS
+      RouteKey: $connect
+      OperationName: ConnectRoute
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref ApiGatewayConnectIntegration
+    
+  ApiGatewayConnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApiGatewayWS
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ConnectHandler.Arn}/invocations
+      IntegrationMethod: POST
+
+  ApiGatewayDisconnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGatewayWS
+      RouteKey: $disconnect
+      OperationName: DisconnectRoute
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref ApiGatewayDisconnectIntegration
+
+  ApiGatewayDisconnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApiGatewayWS
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DisconnectHandler.Arn}/invocations
+      IntegrationMethod: POST
+
+  ApiGatewaySendTextRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGatewayWS
+      RouteKey: sendtext
+      OperationName: SendTextRoute
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref ApiGatewaySendTextIntegration
+
+  ApiGatewaySendTextIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApiGatewayWS
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SendTextHandler.Arn}/invocations
+      IntegrationMethod: POST
+
+  ApiGatewayDefaultRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGatewayWS
+      RouteKey: $default
+      OperationName: DefaultRoute
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref ApiGatewayDefaultIntegration
+
+  ApiGatewayDefaultIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApiGatewayWS
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DefaultHandler.Arn}/invocations
+      IntegrationMethod: POST
+
+  ApiGatewayDeployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    DependsOn:
+      - ApiGatewayConnectRoute
+      - ApiGatewayDisconnectRoute
+      - ApiGatewaySendTextRoute
+      - ApiGatewayDefaultRoute
+    Properties:
+      ApiId: !Ref ApiGatewayWS
+
+  ApiGatawayStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      StageName: !Ref APIGatewayStage
+      Description: Dev Stage
+      DeploymentId: !Ref ApiGatewayDeployment
+      ApiId: !Ref ApiGatewayWS
+
+Outputs:
+  ApiGatewayWSEndpoint:
+    Value: !Sub wss://${ApiGatewayWS}.execute-api.${AWS::Region}.amazonaws.com/${APIGatewayStage}
+    Export:
+      Name: WebSocketURL

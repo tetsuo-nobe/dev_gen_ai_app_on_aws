@@ -2,10 +2,10 @@
 
 * 東京リージョンで Claude Sonnet 3.5 を有効化しておく
 
-1. CloudFormation で 1_iam.yaml からスタック作成
-1. CloudFormation で 2_main.yaml または 3_main_converse.yaml からスタック作成
+1. CloudFormation で **1_iam.yaml** からスタック作成
+1. CloudFormation で **2_main.yaml** または **3_main_converse.yaml** からスタック作成
     - API Gateway の WebSocket API とそれと統合された Lambda 関数を作成
-    - sendtext ルートと統合された Lambda 関数では、プロンプトを受信して Bedrock に invokeModelWithResponseStream を実行し、ストリームで返信
+    - sendtext ルートと統合された Lambda 関数では、プロンプトを受信して Bedrock で推論を実行し、ストリームで返信
     - 2_main.yaml では invokeModelWithResponseStream API を使用。3_main_converse.yaml では Converse API を使用。
 1. 出力から API Gateway WebSocket API の URL をメモしておく
 
@@ -15,7 +15,10 @@
  wscat -c wss://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/
 ```
 
-コマンドプロンプト or ターミナル から下記を送信
+  -  wscat がインストールされてない場合は下記でインストール
+  -  `npm install -g wscat`
+
+1. コマンドプロンプト or ターミナル から下記を送信
 
 ```
 {"action": "sendtext", "text": "Hello!"}
@@ -65,6 +68,7 @@
 
 
 * 停止時は Ctrl + c
+
 
 
 

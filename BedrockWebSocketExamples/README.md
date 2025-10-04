@@ -13,7 +13,7 @@
  wscat -c wss://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/
 ```
 
-コマンドプロンプト or ターミナル
+コマンドプロンプト or ターミナル から下記を送信
 
 ```
 {"action": "sendtext", "text": "Hello!"}
@@ -63,3 +63,4 @@
 
 
 * 停止時は Ctrl + c
+

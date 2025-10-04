@@ -15,8 +15,8 @@
      wscat -c wss://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/
     ```
 
-  -  wscat がインストールされてない場合は下記でインストール
-  -  `npm install -g wscat`
+    -  wscat がインストールされてない場合は下記でインストール
+    -  `npm install -g wscat`
 
 1. コマンドプロンプト or ターミナル から下記を送信
 
@@ -68,6 +68,7 @@
 
 
 * 停止時は Ctrl + c
+
 
 
 

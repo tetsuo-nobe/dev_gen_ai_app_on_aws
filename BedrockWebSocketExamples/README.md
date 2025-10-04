@@ -1,14 +1,16 @@
 # API Gateway WebSocket API + Lambda + Bedrock でストリームレスポンスを取得する
 
+* 東京リージョンで Claude Sonnet 3.5 を有効化しておく
 
 1. CloudFormation で 1_iam.yaml からスタック作成
 1. CloudFormation で 2_main.yaml からスタック作成
+    - API Gateway の WebSocket API とそれと統合された Lambda 関数を作成
 1. 出力から API Gateway WebSocket API の URL をメモしておく
 
 1. コマンドプロンプト or ターミナルを 1つ起動して下記を入力
 
 ```
- wscat -c wss://k3emb4iq48.execute-api.ap-northeast-1.amazonaws.com/dev/
+ wscat -c wss://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/
 ```
 
 コマンドプロンプト or ターミナル
@@ -58,5 +60,6 @@
 < "\u30d4\u30c3\u30af\u306f"
 < "\u3042\u308a\u307e\u3059\u304b?"
 ```
+
 
 * 停止時は Ctrl + c

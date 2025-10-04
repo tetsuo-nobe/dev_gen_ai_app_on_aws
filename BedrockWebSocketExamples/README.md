@@ -5,6 +5,7 @@
 1. CloudFormation で 1_iam.yaml からスタック作成
 1. CloudFormation で 2_main.yaml からスタック作成
     - API Gateway の WebSocket API とそれと統合された Lambda 関数を作成
+    - sendtext ルートと統合された Lambda 関数では、プロンプトを受信して Bedrock に invokeModelWithResponseStream を実行し、ストリームで返信
 1. 出力から API Gateway WebSocket API の URL をメモしておく
 
 1. コマンドプロンプト or ターミナルを 1つ起動して下記を入力
@@ -63,4 +64,5 @@
 
 
 * 停止時は Ctrl + c
+
 

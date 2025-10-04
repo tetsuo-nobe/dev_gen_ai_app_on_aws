@@ -11,18 +11,18 @@
 
 1. コマンドプロンプト or ターミナルを 1つ起動して下記を入力
 
-```
- wscat -c wss://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/
-```
+    ```
+     wscat -c wss://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/dev/
+    ```
 
   -  wscat がインストールされてない場合は下記でインストール
   -  `npm install -g wscat`
 
 1. コマンドプロンプト or ターミナル から下記を送信
 
-```
-{"action": "sendtext", "text": "Hello!"}
-```
+    ```
+    {"action": "sendtext", "text": "Hello!"}
+    ```
 
 * 下記のような回答が返ってくる
 ```
@@ -68,6 +68,7 @@
 
 
 * 停止時は Ctrl + c
+
 
 
 

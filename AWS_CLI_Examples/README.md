@@ -19,6 +19,10 @@ aws bedrock-runtime invoke-model \
  output.txt
 ```
 
+```
+cat output.txt
+```
+
 ### 例3: モデルの呼び出し（converse を使用したテキスト生成）
 ```
 aws bedrock-runtime converse \
@@ -28,4 +32,5 @@ aws bedrock-runtime converse \
 --additional-model-request-fields '{}' \
 --region us-east-1
 ```
+
 

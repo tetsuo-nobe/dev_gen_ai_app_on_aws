@@ -9,7 +9,7 @@ client = boto3.client(
     region_name="us-east-1",
 )
 
-MODEL_ID = "us.amazon.nova-lite-v1:0"
+MODEL_ID = "amazon.nova-lite-v1:0"
 
 # 使用したい画像を開き、Base64 でエンコード
 with open("cherry.jpg", "rb") as image_file:

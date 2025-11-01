@@ -6,7 +6,7 @@ import base64
 client = boto3.client("bedrock-runtime", 
                       region_name="us-east-1", 
                      )
-LITE_MODEL_ID = "us.amazon.nova-lite-v1:0"
+LITE_MODEL_ID = "amazon.nova-lite-v1:0"
 
 # 画像を S3 バケットから取得する場合
 messages_s3 = [

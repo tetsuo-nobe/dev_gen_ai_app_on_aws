@@ -55,7 +55,8 @@ message_list_s3 = [
                     "source": {
                          "s3Location": {
                             # 画像を保存している s3 バケットの URI (https://tnobep-images-us-east-1.s3.us-east-1.amazonaws.com/cat.jpg)
-                            "uri": "s3://tnobep-images-us-east-1/cat.jpg"
+                            "uri": "s3://tnobep-images-us-east-1/cat.jpg",
+                            "bucketOwner" : "670208121311"
                         }
                     },
                 }

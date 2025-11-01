@@ -53,7 +53,7 @@ messages_local= [
 
 inf_params = {"maxTokens": 300, "topP": 0.1, "temperature": 0.3}
 model_response = client.converse(
-    modelId=LITE_MODEL_ID, messages=messages_s3, inferenceConfig=inf_params
+    modelId=LITE_MODEL_ID, messages=messages_local, inferenceConfig=inf_params
 )
 print("\n[Full Response]")
 print(json.dumps(model_response, indent=2))

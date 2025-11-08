@@ -6,7 +6,8 @@
 1. CloudFormation で **2_main.yaml** または **3_main_converse.yaml** からスタック作成
     - API Gateway の WebSocket API とそれと統合された Lambda 関数を作成
     - sendtext ルートと統合された Lambda 関数では、プロンプトを受信して Bedrock で推論を実行し、ストリームで返信
-    - 2_main.yaml では invokeModelWithResponseStream API を使用。3_main_converse.yaml では Converse API を使用。
+    - 2_main.yaml では invokeModelWithResponseStream API を使用。
+    - 3_main_converse.yaml では Converse API を使用。
 1. 出力から API Gateway WebSocket API の URL をメモしておく
 
 1. コマンドプロンプト or ターミナルを 1つ起動して下記を入力
@@ -68,6 +69,7 @@
 
 
 * 停止時は Ctrl + c
+
 
 
 

@@ -1,3 +1,4 @@
+# Blog: https://aws.amazon.com/jp/blogs/news/amazon-nova-multimodal-embeddings-now-available-in-amazon-bedrock/
 import json
 import base64
 import time
@@ -268,4 +269,5 @@ for i, result in enumerate(response["vectors"], 1):
     print(f"   Distance: {result['distance']:.4f}")
     if result.get("metadata"):
         print(f"   Metadata: {result['metadata']}")
+
     print()

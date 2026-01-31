@@ -16,7 +16,6 @@ outputModalities[0]]" \
 aws bedrock-runtime invoke-model \
 --model-id "amazon.nova-lite-v1:0"  \
 --body '{"messages": [{"role": "user","content": [{"text": "あなたはアシスタントです。質問に回答してください。日本の首都はどこですか?"}]}],"inferenceConfig": {"maxTokens": 50,"stopSequences": [],"temperature": 0.5,"topP": 0.9}}' \
---cli-binary-format raw-in-base64-out \
  output.txt
 ```
 
@@ -33,6 +32,7 @@ aws bedrock-runtime converse \
 --additional-model-request-fields '{}' \
 --region us-east-1
 ```
+
 
 
 

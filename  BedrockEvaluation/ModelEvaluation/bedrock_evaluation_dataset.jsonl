@@ -1,0 +1,100 @@
+{"prompt":"日本の首都はどこですか？","referenceResponse":"日本の首都は東京です。","category":"地理"}
+{"prompt":"Pythonでリストを作成する方法を教えてください。","referenceResponse":"Pythonでリストを作成するには、角括弧[]を使用します。例：my_list = [1, 2, 3, 4, 5]","category":"プログラミング"}
+{"prompt":"機械学習とは何ですか？","referenceResponse":"機械学習は、コンピュータがデータから学習し、明示的にプログラムされることなくタスクを実行できるようにする人工知能の一分野です。","category":"AI・機械学習"}
+{"prompt":"HTTPとHTTPSの違いは何ですか？","referenceResponse":"HTTPSはHTTPにセキュリティ層（SSL/TLS）を追加したもので、データの暗号化により安全な通信を実現します。","category":"ネットワーク"}
+{"prompt":"クラウドコンピューティングの主な利点を3つ挙げてください。","referenceResponse":"1. コスト削減（初期投資不要）、2. スケーラビリティ（需要に応じた拡張）、3. アクセシビリティ（どこからでもアクセス可能）","category":"クラウド"}
+{"prompt":"SQLでテーブルを作成するコマンドは？","referenceResponse":"CREATE TABLE table_name (column1 datatype, column2 datatype, ...);","category":"データベース"}
+{"prompt":"アジャイル開発とは何ですか？","referenceResponse":"アジャイル開発は、短い開発サイクル（スプリント）を繰り返し、継続的にフィードバックを取り入れながら柔軟に開発を進める手法です。","category":"開発手法"}
+{"prompt":"Dockerとは何ですか？","referenceResponse":"Dockerは、アプリケーションをコンテナという軽量な実行環境にパッケージ化し、どの環境でも同じように動作させることができるプラットフォームです。","category":"コンテナ技術"}
+{"prompt":"RESTful APIの特徴を説明してください。","referenceResponse":"RESTful APIは、HTTPメソッド（GET、POST、PUT、DELETE）を使用し、ステートレスな通信を行い、リソース指向のアーキテクチャを持つWebサービスです。","category":"API"}
+{"prompt":"GitとGitHubの違いは何ですか？","referenceResponse":"Gitはバージョン管理システムのソフトウェアで、GitHubはGitリポジトリをホスティングするクラウドサービスです。","category":"バージョン管理"}
+{"prompt":"JavaScriptで変数を宣言する方法を教えてください。","referenceResponse":"JavaScriptでは、var、let、constを使って変数を宣言します。現代的なコードではletとconstの使用が推奨されます。","category":"プログラミング"}
+{"prompt":"データベースの正規化とは何ですか？","referenceResponse":"データベースの正規化は、データの冗長性を削減し、整合性を保つためにテーブル構造を最適化するプロセスです。","category":"データベース"}
+{"prompt":"AWSのEC2とは何ですか？","referenceResponse":"EC2（Elastic Compute Cloud）は、AWSが提供する仮想サーバーサービスで、必要に応じてコンピューティングリソースを拡張できます。","category":"クラウド"}
+{"prompt":"オブジェクト指向プログラミングの4つの基本原則は？","referenceResponse":"カプセル化、継承、多態性（ポリモーフィズム）、抽象化の4つです。","category":"プログラミング"}
+{"prompt":"CSSでテキストを中央揃えにする方法は？","referenceResponse":"text-align: center; を使用します。フレックスボックスの場合は、justify-content: center; と align-items: center; を使います。","category":"Web開発"}
+{"prompt":"APIとは何ですか？","referenceResponse":"API（Application Programming Interface）は、異なるソフトウェア間でデータや機能をやり取りするためのインターフェースです。","category":"API"}
+{"prompt":"マイクロサービスアーキテクチャとは何ですか？","referenceResponse":"マイクロサービスアーキテクチャは、アプリケーションを小さな独立したサービスに分割し、それぞれが独自のプロセスで実行される設計手法です。","category":"アーキテクチャ"}
+{"prompt":"Kubernetesの主な役割は何ですか？","referenceResponse":"Kubernetesは、コンテナ化されたアプリケーションのデプロイ、スケーリング、管理を自動化するオーケストレーションプラットフォームです。","category":"コンテナ技術"}
+{"prompt":"NoSQLデータベースの例を3つ挙げてください。","referenceResponse":"MongoDB（ドキュメント型）、Redis（キーバリュー型）、Cassandra（カラム型）などがあります。","category":"データベース"}
+{"prompt":"CI/CDとは何ですか？","referenceResponse":"CI/CDは、継続的インテグレーション（Continuous Integration）と継続的デリバリー/デプロイメント（Continuous Delivery/Deployment）の略で、ソフトウェア開発の自動化プロセスです。","category":"開発手法"}
+{"prompt":"Pythonでファイルを読み込む方法は？","referenceResponse":"with open('filename.txt', 'r') as file: content = file.read() のように使用します。","category":"プログラミング"}
+{"prompt":"ビッグデータの3Vとは何ですか？","referenceResponse":"Volume（量）、Velocity（速度）、Variety（多様性）の3つです。","category":"ビッグデータ"}
+{"prompt":"セキュリティにおける認証と認可の違いは？","referenceResponse":"認証はユーザーの身元確認、認可は認証されたユーザーがアクセスできるリソースの権限管理です。","category":"セキュリティ"}
+{"prompt":"Reactとは何ですか？","referenceResponse":"ReactはFacebookが開発したJavaScriptライブラリで、ユーザーインターフェースを構築するために使用されます。","category":"Web開発"}
+{"prompt":"SQLインジェクションとは何ですか？","referenceResponse":"SQLインジェクションは、悪意のあるSQL文を入力フィールドに挿入してデータベースを不正に操作する攻撃手法です。","category":"セキュリティ"}
+{"prompt":"スクラムにおけるスプリントとは？","referenceResponse":"スプリントは、通常1〜4週間の固定期間で、その間に特定の作業を完了させる開発サイクルです。","category":"開発手法"}
+{"prompt":"JSONとXMLの違いは何ですか？","referenceResponse":"JSONは軽量でシンプルなデータ形式、XMLはより冗長ですがメタデータや複雑な構造に適しています。","category":"データ形式"}
+{"prompt":"Linuxでディレクトリの内容を表示するコマンドは？","referenceResponse":"ls コマンドを使用します。詳細表示には ls -la を使います。","category":"Linux"}
+{"prompt":"デザインパターンとは何ですか？","referenceResponse":"デザインパターンは、ソフトウェア設計における一般的な問題に対する再利用可能な解決策のテンプレートです。","category":"ソフトウェア設計"}
+{"prompt":"TCP/IPとは何ですか？","referenceResponse":"TCP/IPは、インターネット通信の基盤となるプロトコル群で、データの送受信方法を定義しています。","category":"ネットワーク"}
+{"prompt":"仮想化とは何ですか？","referenceResponse":"仮想化は、物理的なハードウェアリソースを論理的に分割し、複数の仮想環境を作成する技術です。","category":"インフラ"}
+{"prompt":"Node.jsとは何ですか？","referenceResponse":"Node.jsは、JavaScriptをサーバーサイドで実行できるランタイム環境です。","category":"プログラミング"}
+{"prompt":"ロードバランサーの役割は何ですか？","referenceResponse":"ロードバランサーは、複数のサーバーにトラフィックを分散し、システムの可用性とパフォーマンスを向上させます。","category":"インフラ"}
+{"prompt":"キャッシュとは何ですか？","referenceResponse":"キャッシュは、頻繁にアクセスされるデータを高速なストレージに一時保存し、アクセス速度を向上させる仕組みです。","category":"パフォーマンス"}
+{"prompt":"DevOpsとは何ですか？","referenceResponse":"DevOpsは、開発（Development）と運用（Operations）を統合し、ソフトウェアのリリースサイクルを短縮する文化と実践です。","category":"開発手法"}
+{"prompt":"Webソケットとは何ですか？","referenceResponse":"WebSocketは、クライアントとサーバー間で双方向のリアルタイム通信を可能にするプロトコルです。","category":"ネットワーク"}
+{"prompt":"ORMとは何ですか？","referenceResponse":"ORM（Object-Relational Mapping）は、オブジェクト指向プログラミング言語とリレーショナルデータベース間のデータ変換を自動化する技術です。","category":"データベース"}
+{"prompt":"SSHとは何ですか？","referenceResponse":"SSH（Secure Shell）は、ネットワーク経由で安全にリモートサーバーにアクセスするための暗号化プロトコルです。","category":"セキュリティ"}
+{"prompt":"コンテナとVMの違いは何ですか？","referenceResponse":"コンテナはOSカーネルを共有し軽量、VMは完全なOSを含み独立性が高いですが重量です。","category":"インフラ"}
+{"prompt":"GraphQLとは何ですか？","referenceResponse":"GraphQLは、クライアントが必要なデータを正確に指定できるクエリ言語で、RESTの代替として使用されます。","category":"API"}
+{"prompt":"サーバーレスアーキテクチャとは何ですか？","referenceResponse":"サーバーレスは、サーバー管理をクラウドプロバイダーに任せ、開発者がコードの実行にのみ集中できるアーキテクチャです。","category":"アーキテクチャ"}
+{"prompt":"JWTとは何ですか？","referenceResponse":"JWT（JSON Web Token）は、当事者間で情報を安全に転送するためのコンパクトなトークン形式です。","category":"セキュリティ"}
+{"prompt":"メモリリークとは何ですか？","referenceResponse":"メモリリークは、プログラムが使用済みのメモリを解放せず、徐々にメモリを消費し続ける問題です。","category":"パフォーマンス"}
+{"prompt":"CDNとは何ですか？","referenceResponse":"CDN（Content Delivery Network）は、世界中に分散されたサーバーからコンテンツを配信し、読み込み速度を向上させるネットワークです。","category":"インフラ"}
+{"prompt":"ブロックチェーンとは何ですか？","referenceResponse":"ブロックチェーンは、分散型台帳技術で、データを改ざん困難な方法で記録・管理する仕組みです。","category":"ブロックチェーン"}
+{"prompt":"TypeScriptとJavaScriptの違いは？","referenceResponse":"TypeScriptはJavaScriptに静的型付けを追加した言語で、コンパイル時にエラーを検出できます。","category":"プログラミング"}
+{"prompt":"リファクタリングとは何ですか？","referenceResponse":"リファクタリングは、外部動作を変えずにコードの内部構造を改善するプロセスです。","category":"ソフトウェア設計"}
+{"prompt":"DNSとは何ですか？","referenceResponse":"DNS（Domain Name System）は、ドメイン名をIPアドレスに変換するシステムです。","category":"ネットワーク"}
+{"prompt":"ファイアウォールの役割は何ですか？","referenceResponse":"ファイアウォールは、ネットワークトラフィックを監視し、不正なアクセスをブロックするセキュリティシステムです。","category":"セキュリティ"}
+{"prompt":"スケールアップとスケールアウトの違いは？","referenceResponse":"スケールアップは単一サーバーのリソース増強、スケールアウトは複数サーバーの追加による拡張です。","category":"インフラ"}
+{"prompt":"MVCアーキテクチャとは何ですか？","referenceResponse":"MVCは、Model（データ）、View（表示）、Controller（制御）に分離する設計パターンです。","category":"アーキテクチャ"}
+{"prompt":"ユニットテストとは何ですか？","referenceResponse":"ユニットテストは、プログラムの最小単位（関数やメソッド）が正しく動作するかを検証するテストです。","category":"テスト"}
+{"prompt":"IPアドレスとは何ですか？","referenceResponse":"IPアドレスは、ネットワーク上のデバイスを識別するための数値アドレスです。","category":"ネットワーク"}
+{"prompt":"暗号化と復号化の違いは？","referenceResponse":"暗号化は平文を暗号文に変換すること、復号化は暗号文を平文に戻すことです。","category":"セキュリティ"}
+{"prompt":"コードレビューの目的は何ですか？","referenceResponse":"コードレビューは、コード品質の向上、バグの早期発見、知識共有を目的とした開発プロセスです。","category":"開発手法"}
+{"prompt":"ステートフルとステートレスの違いは？","referenceResponse":"ステートフルはセッション情報を保持、ステートレスは各リクエストが独立して処理されます。","category":"アーキテクチャ"}
+{"prompt":"バージョン管理システムの利点は？","referenceResponse":"変更履歴の追跡、複数人での協業、過去のバージョンへの復元が可能になります。","category":"バージョン管理"}
+{"prompt":"ポリモーフィズムとは何ですか？","referenceResponse":"ポリモーフィズムは、同じインターフェースで異なる実装を持つオブジェクトを扱える特性です。","category":"プログラミング"}
+{"prompt":"デッドロックとは何ですか？","referenceResponse":"デッドロックは、複数のプロセスが互いにリソースを待ち合い、処理が進まなくなる状態です。","category":"並行処理"}
+{"prompt":"ハッシュ関数とは何ですか？","referenceResponse":"ハッシュ関数は、任意のデータを固定長の値に変換する一方向関数です。","category":"セキュリティ"}
+{"prompt":"プロキシサーバーとは何ですか？","referenceResponse":"プロキシサーバーは、クライアントとサーバー間の仲介役として動作し、セキュリティやキャッシュ機能を提供します。","category":"ネットワーク"}
+{"prompt":"継承とは何ですか？","referenceResponse":"継承は、既存のクラスの特性を新しいクラスが引き継ぐオブジェクト指向の概念です。","category":"プログラミング"}
+{"prompt":"非同期処理とは何ですか？","referenceResponse":"非同期処理は、処理の完了を待たずに次の処理を実行できるプログラミング手法です。","category":"プログラミング"}
+{"prompt":"エンドポイントとは何ですか？","referenceResponse":"エンドポイントは、APIやWebサービスにアクセスするための特定のURLです。","category":"API"}
+{"prompt":"インデックスとは何ですか？","referenceResponse":"インデックスは、データベースの検索速度を向上させるためのデータ構造です。","category":"データベース"}
+{"prompt":"コンパイラとインタプリタの違いは？","referenceResponse":"コンパイラはコード全体を機械語に変換、インタプリタは1行ずつ実行します。","category":"プログラミング"}
+{"prompt":"クッキーとセッションの違いは？","referenceResponse":"クッキーはクライアント側に保存、セッションはサーバー側に保存されるデータです。","category":"Web開発"}
+{"prompt":"スレッドとプロセスの違いは？","referenceResponse":"プロセスは独立した実行単位、スレッドはプロセス内の軽量な実行単位です。","category":"並行処理"}
+{"prompt":"ミドルウェアとは何ですか？","referenceResponse":"ミドルウェアは、リクエストとレスポンスの間で実行される処理を提供するソフトウェアです。","category":"Web開発"}
+{"prompt":"シングルトンパターンとは何ですか？","referenceResponse":"シングルトンパターンは、クラスのインスタンスを1つだけ生成することを保証するデザインパターンです。","category":"ソフトウェア設計"}
+{"prompt":"ガベージコレクションとは何ですか？","referenceResponse":"ガベージコレクションは、使用されなくなったメモリを自動的に解放する仕組みです。","category":"プログラミング"}
+{"prompt":"依存性注入とは何ですか？","referenceResponse":"依存性注入は、オブジェクトの依存関係を外部から提供するデザインパターンです。","category":"ソフトウェア設計"}
+{"prompt":"トランザクションとは何ですか？","referenceResponse":"トランザクションは、データベース操作の一連の処理を1つの単位として扱い、全て成功するか全て失敗するかを保証します。","category":"データベース"}
+{"prompt":"VPCとは何ですか？","referenceResponse":"VPC（Virtual Private Cloud）は、クラウド上に構築される論理的に分離されたプライベートネットワークです。","category":"クラウド"}
+{"prompt":"レスポンシブデザインとは何ですか？","referenceResponse":"レスポンシブデザインは、デバイスの画面サイズに応じてレイアウトが自動調整されるWebデザイン手法です。","category":"Web開発"}
+{"prompt":"S3とは何ですか？","referenceResponse":"S3（Simple Storage Service）は、AWSが提供するオブジェクトストレージサービスです。","category":"クラウド"}
+{"prompt":"Lambda関数とは何ですか？","referenceResponse":"Lambda関数は、AWSのサーバーレスコンピューティングサービスで、イベント駆動でコードを実行します。","category":"クラウド"}
+{"prompt":"イミュータブルとは何ですか？","referenceResponse":"イミュータブルは、一度作成されたオブジェクトの状態が変更できない特性です。","category":"プログラミング"}
+{"prompt":"クラスタリングとは何ですか？","referenceResponse":"クラスタリングは、複数のサーバーを連携させて1つのシステムとして動作させる技術です。","category":"インフラ"}
+{"prompt":"ORACLEとMySQLの違いは？","referenceResponse":"ORACLEは商用の高機能データベース、MySQLはオープンソースの軽量データベースです。","category":"データベース"}
+{"prompt":"コールバック関数とは何ですか？","referenceResponse":"コールバック関数は、他の関数に引数として渡され、特定のタイミングで実行される関数です。","category":"プログラミング"}
+{"prompt":"ビルドツールとは何ですか？","referenceResponse":"ビルドツールは、ソースコードのコンパイル、テスト、パッケージングを自動化するツールです。","category":"開発ツール"}
+{"prompt":"CORSとは何ですか？","referenceResponse":"CORS（Cross-Origin Resource Sharing）は、異なるドメイン間でのリソース共有を制御するセキュリティ機能です。","category":"セキュリティ"}
+{"prompt":"シャーディングとは何ですか？","referenceResponse":"シャーディングは、大規模なデータベースを複数の小さな部分に分割して管理する手法です。","category":"データベース"}
+{"prompt":"プロミスとは何ですか？","referenceResponse":"プロミスは、JavaScriptで非同期処理の結果を扱うためのオブジェクトです。","category":"プログラミング"}
+{"prompt":"ペアプログラミングとは何ですか？","referenceResponse":"ペアプログラミングは、2人の開発者が1台のコンピュータで協力してコードを書く開発手法です。","category":"開発手法"}
+{"prompt":"エンコーディングとは何ですか？","referenceResponse":"エンコーディングは、データを特定の形式に変換するプロセスです（例：UTF-8、Base64）。","category":"データ形式"}
+{"prompt":"ファクトリーパターンとは何ですか？","referenceResponse":"ファクトリーパターンは、オブジェクトの生成ロジックをカプセル化するデザインパターンです。","category":"ソフトウェア設計"}
+{"prompt":"メッセージキューとは何ですか？","referenceResponse":"メッセージキューは、非同期通信でメッセージを一時保存し、システム間の疎結合を実現する仕組みです。","category":"アーキテクチャ"}
+{"prompt":"テスト駆動開発（TDD）とは何ですか？","referenceResponse":"TDDは、テストを先に書いてから実装コードを書く開発手法です。","category":"開発手法"}
+{"prompt":"ストリーム処理とは何ですか？","referenceResponse":"ストリーム処理は、データを連続的に処理し、リアルタイムで結果を生成する手法です。","category":"データ処理"}
+{"prompt":"モノリシックアーキテクチャとは何ですか？","referenceResponse":"モノリシックアーキテクチャは、アプリケーション全体を1つの大きな単位として構築する設計手法です。","category":"アーキテクチャ"}
+{"prompt":"イベント駆動アーキテクチャとは何ですか？","referenceResponse":"イベント駆動アーキテクチャは、イベントの発生をトリガーとして処理を実行する設計パターンです。","category":"アーキテクチャ"}
+{"prompt":"リバースプロキシとは何ですか？","referenceResponse":"リバースプロキシは、クライアントからのリクエストを受け取り、バックエンドサーバーに転送するサーバーです。","category":"インフラ"}
+{"prompt":"カプセル化とは何ですか？","referenceResponse":"カプセル化は、データと処理を1つの単位にまとめ、外部から直接アクセスできないようにする概念です。","category":"プログラミング"}
+{"prompt":"バッチ処理とは何ですか？","referenceResponse":"バッチ処理は、大量のデータをまとめて一括で処理する方式です。","category":"データ処理"}
+{"prompt":"抽象化とは何ですか？","referenceResponse":"抽象化は、複雑な実装の詳細を隠し、本質的な機能だけを公開する概念です。","category":"プログラミング"}
+{"prompt":"冪等性とは何ですか？","referenceResponse":"冪等性は、同じ操作を複数回実行しても結果が変わらない性質です。","category":"API"}
+{"prompt":"サニタイゼーションとは何ですか？","referenceResponse":"サニタイゼーションは、入力データから危険な文字や要素を除去し、セキュリティを確保する処理です。","category":"セキュリティ"}
+{"prompt":"オブザーバーパターンとは何ですか？","referenceResponse":"オブザーバーパターンは、オブジェクトの状態変化を他のオブジェクトに自動通知するデザインパターンです。","category":"ソフトウェア設計"}

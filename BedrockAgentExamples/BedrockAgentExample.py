@@ -26,9 +26,8 @@ for prompt in prompts:
         enableTrace=False,
     )
     
-    #Agent 実行結果の取得と表示
-    #（ストリームを処理しているようなコードだが、実際はストリームのように細切れでレスポンスは返ってきていない。
-    # https://repost.aws/questions/QU_jIzfKIAQHSXyPeE4JMAJg/issue-streaming-response-from-bedrock-agent
+    # Agent 実行結果の取得と表示
+    # ストリームを処理しているようなコードだが、invoke_agent で streamingConfigurations を指定しない限りストリームのように細切れでレスポンスは返ってきていない。
     event_stream = response["completion"]
     text = "" 
     for event in event_stream:

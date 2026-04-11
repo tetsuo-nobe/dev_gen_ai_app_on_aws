@@ -5,7 +5,7 @@ import json
 region_name = "us-west-2"
 
 # 作成したプロンプトルーターの ARN Nova Liteと、フォールバックモデルに Nova Pro を指定。応答品質の差 10%)
-prompt_router_arn = "arn:aws:bedrock:us-west-2:330174381929:prompt-router/sjd2v3c5xird"
+prompt_router_arn = "arn:aws:bedrock:us-west-2:123456789012:prompt-router/sjd2v3c5xird"
 
 # 作成したプロンプトルーターは、PlayGround からも選択可能
 

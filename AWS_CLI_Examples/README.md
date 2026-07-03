@@ -14,6 +14,7 @@ outputModalities[0]]" \
 ### 例2: モデルの呼び出し（invoke-model を使用したテキスト生成）
 ```
 aws bedrock-runtime invoke-model \
+--cli-binary-format raw-in-base64-out \
 --model-id "amazon.nova-lite-v1:0"  \
 --body '{"messages": [{"role": "user","content": [{"text": "あなたはアシスタントです。質問に回答してください。日本の首都はどこですか?"}]}],"inferenceConfig": {"maxTokens": 50,"stopSequences": [],"temperature": 0.5,"topP": 0.9}}' \
  output.txt
@@ -26,6 +27,7 @@ cat output.txt
 ### 例3: モデルの呼び出し（converse を使用したテキスト生成）
 ```
 aws bedrock-runtime converse \
+--cli-binary-format raw-in-base64-out \
 --model-id "amazon.nova-lite-v1:0" \
 --messages '[{"role":"user","content":[{"text":"あなたはアシスタントです。質問に回答してください。日本の首都はどこですか?"}]}]' \
 --inference-config '{"maxTokens":50,"temperature":0.5,"topP":0.9}' \
